@@ -7,7 +7,7 @@ function buttonChangeText(){
 
    function setup() {
     noCanvas();
-    video = createCapture(VIDEO);
+    video = createCapture({ video: { facingMode: { exact: "environment" } } });
     classifier = ml5.imageClassifier('MobileNet', video, modelReady);
     resultsP = createP('Loading model and video...');
    }
