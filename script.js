@@ -7,7 +7,7 @@ function buttonChangeText(){
 
    function setup() {
     noCanvas();
-    video = createCapture({ video: { facingMode: { exact: "environment" } } });
+    video = createCapture(VIDEO);
     classifier = ml5.imageClassifier('MobileNet', video, modelReady);
     resultsP = createP('Loading model and video...');
    }
@@ -29,3 +29,24 @@ function buttonChangeText(){
     }
     setTimeout(classifyVideo, 5000);
    }
+
+   function toggleCamera() {
+    // Stop the current video capture
+    video.stop();
+  
+    // Determine the current facing mode
+    const currentFacingMode = video.getVideoTracks()[0].getSettings().facingMode;
+  
+    // Define the new facing mode based on the current one
+    const newFacingMode = currentFacingMode === "user" ? "environment" : "user";
+  
+    // Create a new video capture with the updated facing mode
+    video = createCapture({ video: { facingMode: { exact: newFacingMode } } }, function(stream) {
+      // Replace the video element with the new capture stream
+      const newVideoElement = stream.getVideoTracks()[0].stop();
+      video.elt.srcObject = stream;
+    });
+  
+    // Re-initialize the image classifier with the new video capture
+    classifier = ml5.imageClassifier('MobileNet', video, modelReady);
+  }
