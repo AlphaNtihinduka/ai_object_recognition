@@ -31,6 +31,8 @@ function buttonChangeText(){
    }
 
    function toggleCamera() {
+
+    console.log("clicked")
     // Stop the current video capture
     video.stop();
   
@@ -50,3 +52,5 @@ function buttonChangeText(){
     // Re-initialize the image classifier with the new video capture
     classifier = ml5.imageClassifier('MobileNet', video, modelReady);
   }
+
+  toggleCamera()
